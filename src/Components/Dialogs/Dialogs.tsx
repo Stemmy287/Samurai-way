@@ -1,47 +1,40 @@
 import s from './Dialogs.module.css'
-import {NavLink} from 'react-router-dom';
+import {MessageItem} from "./MessageItem/MessageItem";
+import {DialogItem} from "./DialogItem/DialogItem";
+import {dialogDateType, messageDate, messagePageType} from "../../redux/state";
+import {BrowserRouter, Route} from "react-router-dom";
+import {Friends} from "../Friends/Friends";
+import React, {useState} from "react";
 
-type DialogItemTypeProps = {
-    name: string
-    id: number
+type DialogsPropsType = {
+    state: messagePageType
+
 }
 
-type MessageItemTypeProps = {
-    message: string
-}
+const Dialogs = (props: DialogsPropsType) => {
 
-const Dialogs = () => {
+
+
+    let dialogsItem = props.state.dialogDate.map(el => <DialogItem ava={el.ava} key={el.id} name={el.name} id={el.id}/>);
+
+    let messagesItem = props.state.messageDate.map( el =>
+       <MessageItem key={el.id} message={el.message}/>
+    );
+
     return (
+        <BrowserRouter>
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
-                <DialogItem name={'Sveta'} id={1}/>
-                <DialogItem name={'Dima'} id={2}/>
-                <DialogItem name={'Valera'} id={3}/>
-                <DialogItem name={'Gena'} id={4}/>
-                <DialogItem name={'Vova'} id={5}/>
+                {dialogsItem}
             </div>
             <div className={s.messagesItems}>
-                <MessageItem message={'Hello'}/>
-                <MessageItem message={'How are you?'}/>
-                <MessageItem message={'Hoe'}/>
+                    <Route path={'/dialogs/1'} render={() => messagesItem}/>
             </div>
         </div>
+        </BrowserRouter>
     )
 }
 
-const DialogItem = (props: DialogItemTypeProps) => {
-    return (
-        <div className={s.dialog + ' ' + s.active}>
-            <NavLink to={`/dialogs/${props.id}`}>{props.name}</NavLink>
-        </div>
-    )
-}
-
-const MessageItem = (props: MessageItemTypeProps) => {
-    return(
-        <div className={s.message}>{props.message}</div>
-    )
-}
 
 
 export default Dialogs

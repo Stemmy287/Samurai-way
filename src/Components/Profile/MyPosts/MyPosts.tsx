@@ -1,8 +1,19 @@
 import s from './MyPosts.module.css';
 import React from 'react';
 import Post from './Post/Post';
+import {postDateType} from "../../../redux/state";
 
-const MyPosts = () => {
+
+
+type MyPostsPropsType = {
+    postDate: postDateType[]
+}
+
+
+const MyPosts = (props: MyPostsPropsType) => {
+
+    let post = props.postDate.map((el, index) => <Post key={index}  message={el.message} likeCounter={el.likeCounter}/>)
+
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
@@ -15,8 +26,7 @@ const MyPosts = () => {
                 </div>
             </div>
             <div className={s.posts}>
-                <Post message={'Hi, how are you?'} likeCounter={15}/>
-                <Post message={'It\'s my first post'} likeCounter={20}/>
+                {post}
             </div>
         </div>
     );

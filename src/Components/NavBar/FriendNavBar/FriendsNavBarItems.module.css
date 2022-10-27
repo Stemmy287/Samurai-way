@@ -1,0 +1,9 @@
+.friendNavBarItem img {
+    width: 40px;
+    border-radius: 20px;
+}
+.friendNavBarItem {
+    display: inline-block;
+    margin: 4px;
+    color: white;
+}

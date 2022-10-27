@@ -12,3 +12,11 @@
 .item.active {
     color: gold;
 }
+
+.itemSettings {
+    margin-top: 20px;
+}
+
+.itemFriends {
+    margin-top: 45px;
+}
