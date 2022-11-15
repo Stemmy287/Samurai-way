@@ -9,7 +9,7 @@ type FriendsPropsType = {
 
 export const FriendsNavBar = (props: FriendsPropsType) => {
 
-    let FriendsNavBarItem = props.state.friendsDate.map(el => <FriendsNavBarItems ava={el.ava} name={el.name}/>)
+    let FriendsNavBarItem = props.state.friendsDate.map(el => <FriendsNavBarItems key={el.id} ava={el.ava} name={el.name}/>)
 
     return (
         <div>
