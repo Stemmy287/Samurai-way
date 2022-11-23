@@ -1,26 +1,35 @@
-import {
-    ActionType,
-    AddMessageActionType,
-    AddPostActionType,
-    ChangeNewMessageActionType, ChangeNewPostActionType,
-    messagePageType
-} from "./state";
+import {ActionType, AddPostActionType, ChangeNewPostActionType, postDateType, profilePageType} from "./store";
 
-export const dialogsReducer = (state: messagePageType, action: ActionType) => {
+let initialState = {
+    postDate: [
+        {id: 1, message: 'Hi, how are you?', likeCounter: 15},
+        {id: 2, message: 'It\'s my first post', likeCounter: 20}
+    ],
+    newPostText: ''
+}
 
+export const profileReducer = (state: profilePageType = initialState, action: ActionType) => {
     switch (action.type) {
-        case "ADD-MESSAGE":
-            let newMessage = {message: state.newMessageText, id: 4}
-            state.messageDate.push(newMessage)
-            state.newMessageText = ''
+        case 'ADD-POST':
+            let newPost: postDateType = {
+                id: 3,
+                message: state.newPostText,
+                likeCounter: 0
+            }
+            state.postDate.push(newPost)
+            state.newPostText = ''
             return state
-        case 'CHANGE-NEW-MESSAGE':
-            state.newMessageText = action.text
+        case 'CHANGE-NEW-POST':
+            state.newPostText = action.text
             return state
-        default:
+        default :
             return state
     }
 }
+
+
+
+
 
 export const addPostCreator = (): AddPostActionType => ({type: 'ADD-POST'})
 

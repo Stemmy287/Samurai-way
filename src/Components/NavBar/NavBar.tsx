@@ -1,11 +1,12 @@
 import React from 'react';
 import s from './NavBar.module.css';
-import {BrowserRouter, NavLink, Route} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {FriendsNavBar} from "./FriendNavBar/FriendsNavBar";
-import {friendsPageType} from "../../redux/state";
+import {ReduxStoreType} from "../../redux/reduxStore";
+import {FriendsNavBarContainer} from "./FriendNavBar/FriendsNavBarContainer";
 
 type FriendsPropsType = {
-    state: friendsPageType
+    store: ReduxStoreType
 }
 
 const NavBar = (props: FriendsPropsType) => {
@@ -28,7 +29,7 @@ const NavBar = (props: FriendsPropsType) => {
             </div>
             <div className={`${s.item} ${s.itemFriends}`}>
                 <NavLink to={'friends'}>Friends</NavLink>
-                <FriendsNavBar state={props.state}/>
+                <FriendsNavBarContainer store={props.store}/>
             </div>
         </nav>
     );

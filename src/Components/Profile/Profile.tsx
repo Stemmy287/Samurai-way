@@ -1,13 +1,12 @@
 import React from 'react';
 import s from './Profile.module.css';
-import MyPosts from './MyPosts/MyPosts';
 import TopInfo from './TopInfo/TopInfo';
-import {ActionType, profilePageType} from "../../redux/state";
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
+import {ReduxStoreType} from "../../redux/reduxStore";
 
 
 type ProfileTypeProps = {
-    profilePage: profilePageType
-    dispatch: (action: ActionType) => void
+    store: ReduxStoreType
 }
 
 const Profile = (props: ProfileTypeProps) => {
@@ -15,7 +14,7 @@ const Profile = (props: ProfileTypeProps) => {
     return (
         <div className={s.content}>
             <TopInfo topImg={'https://www.w3schools.com/css/img_5terre_wide.jpg'} info={'img'}/>
-            <MyPosts dispatch={props.dispatch} profilePage={props.profilePage}/>
+            <MyPostsContainer store={props.store}/>
         </div>
     );
 }

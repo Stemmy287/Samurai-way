@@ -1,12 +1,12 @@
 import React from 'react';
-import {profileReducer} from "./dialogsReducer";
+import {profileReducer} from "./profileReducer";
 import dialogs from "../Components/Dialogs/Dialogs";
-import {dialogsReducer} from "./profileReducer";
+import {dialogReducer} from "./dialogReducer";
 
 export type storeType = {
     _state: stateType
     getState: () => stateType
-    subscriber: (callback: () => void) => void
+    subscribe: (callback: () => void) => void
     _callSubscriber: (state: stateType) => void
     dispatch: (action: ActionType) => void
 }
@@ -114,12 +114,12 @@ export let store: storeType = {
     getState() {
         return this._state
     },
-    subscriber(callback: () => void) {
+    subscribe(callback: () => void) {
         this._callSubscriber = callback
     },
     dispatch(action) {
         this._state.profilePage = profileReducer(this._state.profilePage, action)
-        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
+        this._state.messagesPage = dialogReducer(this._state.messagesPage, action)
 
         this._callSubscriber(this._state)
     },
