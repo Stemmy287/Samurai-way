@@ -1,18 +1,20 @@
 import React from 'react';
-import {friendsPageType} from "../../../redux/store";
-import {FriendsNavBarItems} from "./FriendsNavBarItems";
-import {ReduxStoreType} from "../../../redux/reduxStore";
 import {FriendsNavBar} from "./FriendsNavBar";
+import {connect} from "react-redux";
+import {AppReduxType} from "../../../redux/reduxStore";
+import {FriendsDateType} from "../../../redux/friendReducer";
 
-
-type FriendsPropsType = {
-    store: ReduxStoreType
+type MapStateToPropsType = {
+    friends: FriendsDateType[]
 }
 
-export const FriendsNavBarContainer = (props: FriendsPropsType) => {
+export type FriendsNavBarPropsType = MapStateToPropsType
 
-    const state = props.store.getState()
-
-    return (<FriendsNavBar state={state.friendsPage.friendsDate}/>);
+const mapStateToProps = (state: AppReduxType): MapStateToPropsType => {
+    return {
+        friends: state.friendsPage.friendsDate
+    }
 }
+
+export const FriendsNavBarContainer = connect(mapStateToProps)(FriendsNavBar)
 

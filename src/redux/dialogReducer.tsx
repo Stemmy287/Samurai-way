@@ -1,12 +1,23 @@
-import {
-    ActionType,
-    AddMessageActionType,
-    AddPostActionType,
-    ChangeNewMessageActionType, ChangeNewPostActionType,
-    messagePageType
-} from "./store";
+import {ActionType, AddMessageActionType, ChangeNewMessageActionType} from "./store";
 
-let initialState = {
+export type DialogsStateType = {
+    dialogDate: DialogDateType[]
+    messageDate: MessageDateType[]
+    newMessageText: string
+}
+
+export type DialogDateType = {
+    name: string
+    id: number
+    ava: string
+}
+
+export type MessageDateType = {
+    message: string
+    id: number
+}
+
+let initialState: DialogsStateType = {
     dialogDate: [
         {name: 'Sveta', id: 1, ava: 'https://ak.picdn.net/contributors/1835936/avatars/thumb.jpg?t=166449382'},
         {name: 'Dima', id: 2, ava: 'https://ak.picdn.net/contributors/1835936/avatars/thumb.jpg?t=166449382'},
@@ -22,17 +33,17 @@ let initialState = {
     newMessageText: ''
 }
 
-export const dialogReducer = (state: messagePageType = initialState, action: ActionType) => {
+export const dialogReducer = (state = initialState, action: ActionType): DialogsStateType => {
 
     switch (action.type) {
         case "ADD-MESSAGE":
-            let newMessage = {message: state.newMessageText, id: 4}
-            state.messageDate.push(newMessage)
-            state.newMessageText = ''
-            return state
+            let newMessage = {
+                message: state.newMessageText,
+                id: 4
+            }
+            return {...state, messageDate: [...state.messageDate, newMessage], newMessageText: ''}
         case 'CHANGE-NEW-MESSAGE':
-            state.newMessageText = action.text
-            return state
+            return {...state, newMessageText: action.text}
         default:
             return state
     }

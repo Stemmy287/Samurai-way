@@ -1,19 +1,24 @@
 import React from 'react';
 import s from './TopInfo.module.css'
+import {ProfileType} from "../../../redux/profileReducer";
+import Preloader from "../../common/Preloader/Preloader";
 
 type TopInfoTypeProps = {
-    topImg: string
-    info: string
+    profile: ProfileType | null
 }
 
 const TopInfo = (props: TopInfoTypeProps) => {
+    console.log(props.profile)
+    if (!props.profile) {
+        return  <Preloader/>
+    }
+
     return (
         <div>
             <div>
-                <img src={props.topImg}/>
-            </div>
-            <div className={s.info}>
-                {props.info}
+                <img src={props.profile.photos.large}/>
+                <div><b>{props.profile.fullName}</b></div>
+                <div>{props.profile.aboutMe}</div>
             </div>
         </div>
     )

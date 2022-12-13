@@ -1,7 +1,7 @@
 import React from 'react';
-import {profileReducer} from "./profileReducer";
-import dialogs from "../Components/Dialogs/Dialogs";
+import {profileReducer, ProfileType} from "./profileReducer";
 import {dialogReducer} from "./dialogReducer";
+import {itemType} from "./usersReducer";
 
 export type storeType = {
     _state: stateType
@@ -17,42 +17,41 @@ export type stateType = {
     friendsPage: friendsPageType
 }
 
-export type friendsPageType = {
+type friendsPageType = {
     friendsDate: friendsDateType[]
 }
 
-export type profilePageType = {
+type profilePageType = {
     postDate: postDateType[]
-    newPostText: string
+    newPostText: string,
+    profile: ProfileType | null
 }
 
-export type messagePageType = {
+type messagePageType = {
     dialogDate: dialogDateType[]
     messageDate: messageDate[]
     newMessageText: string
 }
 
-export type friendsDateType = {
+type friendsDateType = {
     id: number
     name: string
     ava: string
 }
 
-export type postDateType = {
+type postDateType = {
     id: number
     message: string
     likeCounter: number
 }
 
-
-
-export type dialogDateType = {
+type dialogDateType = {
     name: string
     id: number
     ava: string
 }
 
-export type messageDate = {
+type messageDate = {
     message: string
     id: number
 }
@@ -75,10 +74,53 @@ export type ChangeNewMessageActionType = {
     text: string
 }
 
+export type FollowType = {
+    type: 'FOLLOW'
+    userId: number
+}
+
+export type UnfollowType = {
+    type: 'UNFOLLOW'
+    userId: number
+}
+
+export type SetUsersType = {
+    type: 'SET_USERS'
+    items: itemType[]
+}
+
+export type SetCurrentPage = {
+    type: 'SET_CURRENT_PAGE'
+    currentPage: number
+}
+
+export type SetUsersTotalCount = {
+    type: 'SET_USERS_TOTAL_COUNT'
+    totalUsersCount: number
+}
+
+export type ToggleIsFetchingType = {
+    type: 'TOGGLE_IS_FETCHING'
+    isFetching: boolean
+}
+
+export type SetUserProfileActionType = {
+    type: 'SET_USER_PROFILE'
+    profile: ProfileType
+}
+
 export type ActionType = AddPostActionType |
     ChangeNewPostActionType |
     AddMessageActionType |
-    ChangeNewMessageActionType
+    ChangeNewMessageActionType |
+    FollowType |
+    UnfollowType |
+    SetUsersType |
+    SetCurrentPage |
+    SetUsersTotalCount |
+    ToggleIsFetchingType |
+    SetUserProfileActionType
+
 
 export let store: storeType = {
     _state: {
@@ -87,7 +129,8 @@ export let store: storeType = {
                 {id: 1, message: 'Hi, how are you?', likeCounter: 15},
                 {id: 2, message: 'It\'s my first post', likeCounter: 20}
             ],
-            newPostText: ''
+            newPostText: '',
+            profile: null
         },
         messagesPage: {
             dialogDate: [

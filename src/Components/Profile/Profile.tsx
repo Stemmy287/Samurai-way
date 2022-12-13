@@ -2,19 +2,17 @@ import React from 'react';
 import s from './Profile.module.css';
 import TopInfo from './TopInfo/TopInfo';
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
-import {ReduxStoreType} from "../../redux/reduxStore";
+import {ProfileType} from "../../redux/profileReducer";
 
-
-type ProfileTypeProps = {
-    store: ReduxStoreType
+type ProfilePropsType = {
+    profile: ProfileType | null
 }
 
-const Profile = (props: ProfileTypeProps) => {
-
+const Profile: React.FC<ProfilePropsType> = (props) => {
     return (
         <div className={s.content}>
-            <TopInfo topImg={'https://www.w3schools.com/css/img_5terre_wide.jpg'} info={'img'}/>
-            <MyPostsContainer store={props.store}/>
+            <TopInfo profile={props.profile}/>
+            <MyPostsContainer/>
         </div>
     );
 }

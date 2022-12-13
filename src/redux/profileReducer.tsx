@@ -1,14 +1,54 @@
-import {ActionType, AddPostActionType, ChangeNewPostActionType, postDateType, profilePageType} from "./store";
+import {ActionType, AddPostActionType, ChangeNewPostActionType, SetUserProfileActionType} from "./store";
+import post from "../Components/Profile/MyPosts/Post/Post";
 
-let initialState = {
+export type ProfilePageType = {
+    postDate: postDateType[],
+    newPostText: string,
+    profile: ProfileType | null
+}
+
+export type postDateType = {
+    id: number
+    message: string
+    likeCounter: number
+}
+
+export type ContactsType = {
+    facebook: string | null
+    website: string | null
+    vk: string | null
+    twitter: string | null
+    instagram: string | null
+    youtube: string | null
+    github: string | null
+    mainLink: string | null
+}
+
+export type PhotosType = {
+    small: string | undefined
+    large: string | undefined
+}
+
+export type ProfileType = {
+    aboutMe: string | null
+    contacts: ContactsType
+    lookingForAJob: boolean
+    lookingForAJobDescription: string | null
+    fullName: string | null
+    userId: number
+    photos: PhotosType
+}
+
+let initialState: ProfilePageType = {
     postDate: [
         {id: 1, message: 'Hi, how are you?', likeCounter: 15},
         {id: 2, message: 'It\'s my first post', likeCounter: 20}
-    ],
-    newPostText: ''
+    ] as postDateType[],
+    newPostText: '',
+    profile: null
 }
 
-export const profileReducer = (state: profilePageType = initialState, action: ActionType) => {
+export const profileReducer = (state = initialState, action: ActionType): ProfilePageType => {
     switch (action.type) {
         case 'ADD-POST':
             let newPost: postDateType = {
@@ -16,12 +56,11 @@ export const profileReducer = (state: profilePageType = initialState, action: Ac
                 message: state.newPostText,
                 likeCounter: 0
             }
-            state.postDate.push(newPost)
-            state.newPostText = ''
-            return state
+            return {...state, postDate: [...state.postDate, newPost], newPostText: ''}
         case 'CHANGE-NEW-POST':
-            state.newPostText = action.text
-            return state
+            return {...state, newPostText: action.text}
+        case 'SET_USER_PROFILE':
+            return {...state, profile: action.profile}
         default :
             return state
     }
@@ -34,3 +73,5 @@ export const profileReducer = (state: profilePageType = initialState, action: Ac
 export const addPostCreator = (): AddPostActionType => ({type: 'ADD-POST'})
 
 export const changeNewPostCreator = (text: string): ChangeNewPostActionType => ({type: 'CHANGE-NEW-POST', text: text})
+
+export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({type: 'SET_USER_PROFILE', profile})

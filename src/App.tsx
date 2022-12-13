@@ -8,22 +8,23 @@ import News from './Components/News/News';
 import Music from './Components/Music/Music';
 import Settings from './Components/Settings/Settings';
 import {Friends} from "./Components/Friends/Friends";
-import {ReduxStoreType} from "./redux/reduxStore";
 import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
+import {UsersContainer} from "./Components/Users/UsersContainer";
+import {ProfileContainer} from "./Components/Profile/ProfileConatiner";
 
 
-type AppPropsType = {
-    store: ReduxStoreType
-}
 
-const App = (props: AppPropsType) => {
+
+
+const App = () => {
     return (
             <div className={'app-wrapper'}>
                 <Header/>
-                <NavBar store={props.store}/>
+                <NavBar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/dialogs'} render={() => <DialogsContainer store={props.store}/>}/>
-                    <Route path={'/profile'} render={() => <Profile store={props.store}/>}/>
+                    <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
+                    <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
+                    <Route path={'/users'} render={() => <UsersContainer/>}/>
                     <Route path={'/news'} render={() => <News/>}/>
                     <Route path={'/music'} render={() => <Music/>}/>
                     <Route path={'/settings'} render={() => <Settings/>}/>
