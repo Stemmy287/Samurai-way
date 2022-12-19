@@ -11,6 +11,7 @@ import {Friends} from "./Components/Friends/Friends";
 import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./Components/Users/UsersContainer";
 import {ProfileContainer} from "./Components/Profile/ProfileConatiner";
+import {HeaderContainer} from "./Components/Header/HeaderContainer";
 
 
 
@@ -19,7 +20,7 @@ import {ProfileContainer} from "./Components/Profile/ProfileConatiner";
 const App = () => {
     return (
             <div className={'app-wrapper'}>
-                <Header/>
+                <HeaderContainer/>
                 <NavBar/>
                 <div className={'app-wrapper-content'}>
                     <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>

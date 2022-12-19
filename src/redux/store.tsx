@@ -109,6 +109,12 @@ export type SetUserProfileActionType = {
     profile: ProfileType
 }
 
+export type SetFollowingInProgress = {
+    type: 'FOLLOWING_IN_PROGRESS',
+    isFetching: boolean,
+    id: number
+}
+
 export type ActionType = AddPostActionType |
     ChangeNewPostActionType |
     AddMessageActionType |
@@ -119,7 +125,8 @@ export type ActionType = AddPostActionType |
     SetCurrentPage |
     SetUsersTotalCount |
     ToggleIsFetchingType |
-    SetUserProfileActionType
+    SetUserProfileActionType |
+    SetFollowingInProgress
 
 
 export let store: storeType = {
