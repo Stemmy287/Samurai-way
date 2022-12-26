@@ -1,29 +1,27 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import axios from "axios";
-import {ProfileType, setUserProfile} from "../../redux/profileReducer";
+import {getProfileThunk, ProfileType, setUserProfile} from "../../redux/profileReducer";
 import {AppReduxType} from "../../redux/reduxStore";
-import {Dispatch} from "redux";
-import {RouteComponentProps, withRouter} from "react-router-dom";
-import {UserApi} from "../../api/api";
+import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 
-class ProfileApiContainer extends React.Component<PropsType>{
+class ProfileApiContainer extends React.Component<PropsType> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
 
-        if(!userId) {
+        if (!userId) {
             userId = '2'
         }
-
-        UserApi.getProfile(userId).then(
-            response => {
-                this.props.setUserProfile(response.data)
-            })
+        this.props.getProfileThunk(userId)
     }
 
     render() {
+
+        if(!this.props.isAuth) {
+            return <Redirect to={'/login'}/>
+        }
+
         return (
             <div>
                 <Profile profile={this.props.profile}/>
@@ -34,10 +32,11 @@ class ProfileApiContainer extends React.Component<PropsType>{
 
 type mapStateToPropsType = {
     profile: ProfileType | null
+    isAuth: boolean
 }
 
 type mapDispatchToPropsType = {
-    setUserProfile: (profile: ProfileType) => void
+    getProfileThunk: (userId: string) => void
 }
 
 type paramsType = {
@@ -50,14 +49,15 @@ type ProfileApiPropsType = mapStateToPropsType & mapDispatchToPropsType
 
 const mapStateToProps = (state: AppReduxType): mapStateToPropsType => {
     return {
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        isAuth: state.auth.isAuth
     }
 }
 
 const mapDispatchToProps = (): mapDispatchToPropsType => {
     return {
-        setUserProfile
-        }
+        getProfileThunk
+    }
 
 }
 

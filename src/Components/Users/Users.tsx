@@ -4,7 +4,7 @@ import userPhoto from "../../assets/images/149071.png";
 import {follow, itemType} from "../../redux/usersReducer";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
-import {UserApi} from "../../api/api";
+import {userApi} from "../../api/api";
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -12,10 +12,9 @@ type UsersPropsType = {
     currentPage: number
     items: itemType[]
     onPageChanged: (p: number) => void
-    followFunc: (userId: number) => void
-    unFollowFunc: (userIdf: number) => void
-    setFollowingInProgress: (isFetching: boolean, id: number) => void
     followingInProgress: Array<number>
+    unFollowUserThunk: (userId: number) => void
+    followUserThunk: (userId: number) => void
 }
 
 export const Users = (props: UsersPropsType) => {
@@ -44,24 +43,10 @@ export const Users = (props: UsersPropsType) => {
                     <div>
                         {el.followed
                             ? <button disabled={props.followingInProgress.some(id => id === el.id)} onClick={() => {
-                                props.setFollowingInProgress(true, el.id)
-                                UserApi.unFollowUsers(el.id).then(
-                                    response => {
-                                        if (response.data.resultCode === 0) {
-                                            props.unFollowFunc(el.id)
-                                        }
-                                        props.setFollowingInProgress(false, el.id)
-                                    })
+                                props.unFollowUserThunk(el.id)
                             }}>Unfollow</button>
                             : <button disabled={props.followingInProgress.some(id => id === el.id)} onClick={() => {
-                                props.setFollowingInProgress(true, el.id)
-                                UserApi.followUsers(el.id).then(
-                                    response => {
-                                        if (response.data.resultCode === 0) {
-                                            props.followFunc(el.id)
-                                            props.setFollowingInProgress(false, el.id)
-                                        }
-                                    })
+                                props.followUserThunk(el.id)
                             }}>Follow</button>
                         }
                     </div>

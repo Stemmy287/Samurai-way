@@ -12,6 +12,7 @@ import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./Components/Users/UsersContainer";
 import {ProfileContainer} from "./Components/Profile/ProfileConatiner";
 import {HeaderContainer} from "./Components/Header/HeaderContainer";
+import {Login} from "./Components/Login/Login";
 
 
 
@@ -30,6 +31,7 @@ const App = () => {
                     <Route path={'/music'} render={() => <Music/>}/>
                     <Route path={'/settings'} render={() => <Settings/>}/>
                     <Route path={'/friends'} render={() => <Friends/>}/>
+                    <Route path={'/login'} render={() => <Login/>}/>
                 </div>
             </div>
     );

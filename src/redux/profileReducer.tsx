@@ -1,5 +1,7 @@
 import {ActionType, AddPostActionType, ChangeNewPostActionType, SetUserProfileActionType} from "./store";
 import post from "../Components/Profile/MyPosts/Post/Post";
+import {Dispatch} from "redux";
+import {userApi} from "../api/api";
 
 export type ProfilePageType = {
     postDate: postDateType[],
@@ -71,7 +73,13 @@ export const profileReducer = (state = initialState, action: ActionType): Profil
 
 
 export const addPostCreator = (): AddPostActionType => ({type: 'ADD-POST'})
-
 export const changeNewPostCreator = (text: string): ChangeNewPostActionType => ({type: 'CHANGE-NEW-POST', text: text})
-
 export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({type: 'SET_USER_PROFILE', profile})
+
+export const getProfileThunk = (userId: string) => (dispatch: Dispatch) => {
+    userApi.getProfile(userId).then(
+        response => {
+            dispatch(setUserProfile(response.data))
+        })
+}
+
