@@ -1,17 +1,18 @@
 import {connect} from "react-redux";
 import {AppReduxType} from "../../redux/reduxStore";
-import {
-    follow,
-    unFollowUserThunk,
-    getUsersThunk,
-    itemType,
-    setCurrentPage,
-    setFollowingInProgress,
-    unFollow, followUserThunk
-} from "../../redux/usersReducer";
-import React from "react";
+import {followUserThunk, getUsersThunk, itemType, setCurrentPage, unFollowUserThunk} from "../../redux/usersReducer";
+import React, {ComponentType} from "react";
 import {Users} from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import {compose} from "redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getItems,
+    getPageSize,
+    getTotalUsersCount
+} from "../../redux/usersSelectors";
 
 type MapStateToPropsType = {
     items: itemType[]
@@ -31,14 +32,16 @@ type mapDispatchToProps = {
 
 export type UsersApiPropsType = MapStateToPropsType & mapDispatchToProps
 
-class UsersApiContainer extends React.Component<UsersApiPropsType> {
+class UsersContainer extends React.Component<UsersApiPropsType> {
 
     componentDidMount() {
-        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
+        const {currentPage, pageSize} = this.props
+        this.props.getUsersThunk(currentPage, pageSize)
     }
 
     onPageChanged = (p: number) => {
-        this.props.getUsersThunk(p, this.props.pageSize)
+        const {pageSize} = this.props
+        this.props.getUsersThunk(p, pageSize)
     }
 
     render() {
@@ -62,12 +65,12 @@ class UsersApiContainer extends React.Component<UsersApiPropsType> {
 
 const mapStateToProps = (state: AppReduxType): MapStateToPropsType => {
     return {
-        items: state.usersPage.items,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        items: getItems(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
@@ -80,4 +83,7 @@ const mapDispatchToProps = (): mapDispatchToProps => {
     }
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps())(UsersApiContainer)
+export default compose<ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps())
+)(UsersContainer)
+

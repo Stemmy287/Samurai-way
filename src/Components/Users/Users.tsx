@@ -1,10 +1,7 @@
-import React from 'react';
-import s from "./users.module.css";
-import userPhoto from "../../assets/images/149071.png";
-import {follow, itemType} from "../../redux/usersReducer";
-import {NavLink} from "react-router-dom";
-import axios from "axios";
-import {userApi} from "../../api/api";
+import React, {FC} from 'react';
+import {itemType} from "../../redux/usersReducer";
+import {Paginator} from "../common/Paginator/Paginator";
+import {User} from "./User";
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -17,51 +14,29 @@ type UsersPropsType = {
     followUserThunk: (userId: number) => void
 }
 
-export const Users = (props: UsersPropsType) => {
+export const Users: FC<UsersPropsType> = ({
+                                              currentPage,
+                                              onPageChanged,
+                                              totalUsersCount,
+                                              pageSize,
+                                              items,
+                                              followingInProgress,
+                                              unFollowUserThunk,
+                                              followUserThunk,
+                                              ...props
+                                          }) => {
 
-    const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
-
-    const pages = []
-
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
-    }
-    console.log(props.followingInProgress)
     return (
         <div>
-            <div>
-                {pages.map(p => <span key={p} className={props.currentPage === p ? s.selectedPage : ''}
-                                      onClick={() => props.onPageChanged(p)}>{p}</span>)}
-            </div>
-            {props.items.map(el => <div key={el.id}>
-                <span>
-                    <div>
-                        <NavLink to={'/profile/' + el.id}>
-                            <img src={el.photos.small ? el.photos.small : userPhoto} className={s.ava}/>
-                        </NavLink>
-                    </div>
-                    <div>
-                        {el.followed
-                            ? <button disabled={props.followingInProgress.some(id => id === el.id)} onClick={() => {
-                                props.unFollowUserThunk(el.id)
-                            }}>Unfollow</button>
-                            : <button disabled={props.followingInProgress.some(id => id === el.id)} onClick={() => {
-                                props.followUserThunk(el.id)
-                            }}>Follow</button>
-                        }
-                    </div>
-                </span>
-                <span>
-                    <span>
-                        <div>{el.name}</div>
-                        <div>{el.status}</div>
-                    </span>
-                    <span>
-                        <div>{'el.location.country'}</div>
-                        <div>{'el.location.city'}</div>
-                    </span>
-                </span>
-            </div>)}
+            <Paginator currentPage={currentPage} onPageChanged={onPageChanged} totalUsersCount={totalUsersCount}
+                       pageSize={pageSize}/>
+            {items.map(el => <User
+                key={el.id}
+                user={el}
+                followingInProgress={followingInProgress}
+                unFollowUserThunk={unFollowUserThunk}
+                followUserThunk={followUserThunk}
+            />)}
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import {profileReducer, ProfileType} from "./profileReducer";
+import {deletePost, profileReducer, ProfileType} from "./profileReducer";
 import {dialogReducer} from "./dialogReducer";
 import {itemType} from "./usersReducer";
 
@@ -23,14 +23,13 @@ type friendsPageType = {
 
 type profilePageType = {
     postDate: postDateType[]
-    newPostText: string,
     profile: ProfileType | null
+    status: string | null
 }
 
 type messagePageType = {
     dialogDate: dialogDateType[]
     messageDate: messageDate[]
-    newMessageText: string
 }
 
 type friendsDateType = {
@@ -58,6 +57,7 @@ type messageDate = {
 
 export type AddPostActionType = {
     type: 'ADD-POST'
+    newText: string
 }
 
 export type ChangeNewPostActionType = {
@@ -66,7 +66,8 @@ export type ChangeNewPostActionType = {
 }
 
 export type AddMessageActionType = {
-    type: 'ADD-MESSAGE'
+    type: 'ADD-MESSAGE',
+    newText: string
 }
 
 export type ChangeNewMessageActionType = {
@@ -115,6 +116,16 @@ export type SetFollowingInProgress = {
     id: number
 }
 
+export type SetStatusActionType = {
+    type: 'SET-STATUS',
+    title: string | null
+}
+
+export type UpdateStatusActionType = {
+    type: 'UPDATE-STATUS'
+    title: string | null
+}
+
 export type ActionType = AddPostActionType |
     ChangeNewPostActionType |
     AddMessageActionType |
@@ -126,7 +137,10 @@ export type ActionType = AddPostActionType |
     SetUsersTotalCount |
     ToggleIsFetchingType |
     SetUserProfileActionType |
-    SetFollowingInProgress
+    SetFollowingInProgress |
+    SetStatusActionType |
+    UpdateStatusActionType |
+    ReturnType<typeof deletePost>
 
 
 export let store: storeType = {
@@ -136,8 +150,8 @@ export let store: storeType = {
                 {id: 1, message: 'Hi, how are you?', likeCounter: 15},
                 {id: 2, message: 'It\'s my first post', likeCounter: 20}
             ],
-            newPostText: '',
-            profile: null
+            profile: null,
+            status: null
         },
         messagesPage: {
             dialogDate: [
@@ -151,8 +165,7 @@ export let store: storeType = {
                 {message: 'Hello', id: 1},
                 {message: 'How are you?', id: 2},
                 {message: 'Hoe', id: 3},
-            ],
-            newMessageText: ''
+            ]
         },
         friendsPage: {
             friendsDate: [

@@ -1,6 +1,8 @@
 import {ActionType} from "./store";
-import {Dispatch} from "redux";
+import {AnyAction, Dispatch} from "redux";
 import {userApi} from "../api/api";
+import {AxiosResponse} from "axios";
+import {updateObjectInArray} from "../utils/objectsHelpers";
 
 
 export type getUsersResponseType = {
@@ -47,9 +49,9 @@ export const usersReducer = (state = initialState, action: ActionType): getUsers
 
     switch (action.type) {
         case FOLLOW:
-            return {...state, items: state.items.map(el => el.id === action.userId ? {...el, followed: true} : el)}
+            return {...state, items: updateObjectInArray(state.items, action.userId, 'id', {followed: true})}
         case UNFOLLOW:
-            return {...state, items: state.items.map(el => el.id === action.userId ? {...el, followed: false} : el)}
+            return {...state, items: updateObjectInArray(state.items, action.userId, 'id', {followed: false})}
         case SET_USERS:
             return {...state, items: [...action.items]}
         case SET_CURRENT_PAGE:
@@ -80,39 +82,33 @@ export const setFollowingInProgress = (isFetching: boolean, id: number) => ({
     id
 })
 
-export const getUsersThunk = (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
+export const getUsersThunk = (currentPage: number, pageSize: number) => async (dispatch: Dispatch) => {
     dispatch(setIsFetching(true))
-    userApi.getUsers(currentPage, pageSize).then(
-        response => {
-            dispatch(setIsFetching(false))
-            dispatch(setUsers(response.items))
-            dispatch(setUsersTotalCount(response.totalCount))
-        })
+    const res = await userApi.getUsers(currentPage, pageSize)
+    dispatch(setIsFetching(false))
+    dispatch(setUsers(res.items))
+    dispatch(setCurrentPage(currentPage))
+    dispatch(setUsersTotalCount(res.totalCount))
+
 }
 
-
-export const unFollowUserThunk = (userId: number) => (dispatch: Dispatch) => {
+const followUnfollowFlow = async (dispatch: Dispatch, userId: number, apiMethod: (userId: number) => Promise<AxiosResponse>, actionCreator: (userId: number) => AnyAction) => {
     dispatch(setFollowingInProgress(true, userId))
-    userApi.unFollowUsers(userId).then(
-        response => {
-            if (response.data.resultCode === 0) {
-                dispatch(unFollow(userId))
-            }
-            dispatch(setFollowingInProgress(false, userId))
-        })
+    const res = await apiMethod(userId)
+    if (res.data.resultCode === 0) {
+        dispatch(actionCreator(userId))
+    }
+    dispatch(setFollowingInProgress(false, userId))
 }
 
-export const followUserThunk = (userId: number) => (dispatch: Dispatch) => {
-    dispatch(setFollowingInProgress(true, userId))
-    userApi.followUsers(userId).then(
-        response => {
-            if (response.data.resultCode === 0) {
-                dispatch(follow(userId))
-                dispatch(setFollowingInProgress(false, userId))
-            }
-        })
+export const unFollowUserThunk = (userId: number) => async (dispatch: Dispatch) => {
+    followUnfollowFlow(dispatch, userId, userApi.unFollowUsers.bind(userApi), unFollow)
+
 }
 
+export const followUserThunk = (userId: number) => async (dispatch: Dispatch) => {
+    followUnfollowFlow(dispatch, userId, userApi.followUsers.bind(userApi), follow)
+}
 
 
 

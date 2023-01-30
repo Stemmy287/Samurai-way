@@ -1,12 +1,8 @@
 import React from 'react';
-import s from './Header.module.css';
 import Header from "./Header";
 import {connect} from "react-redux";
 import {AppReduxType} from "../../redux/reduxStore";
-import {Dispatch} from "redux";
-import {AuthThunk, setUserData} from "../../redux/authReducer";
-import axios from "axios";
-import {userApi} from "../../api/api";
+import {AuthThunk, LogoutThunk, setUserData} from "../../redux/authReducer";
 
 type MapStateToPropsType = {
     isAuth: boolean
@@ -14,17 +10,14 @@ type MapStateToPropsType = {
 }
 
 type MapDispatchToPropsType = {
-    setUserData: (userId: number, login: string, email: string) => void
-    AuthThunk: () => void
+    setUserData: (userId: number, login: string, email: string, isAuth: boolean) => void
+    LogoutThunk: () => void
 }
 
 export type HeaderPropsType = MapStateToPropsType & MapDispatchToPropsType
 
 class HeaderApiContainer extends React.Component<HeaderPropsType> {
 
-    componentDidMount() {
-        this.props.AuthThunk()
-    }
     render() {
         return (
             <Header {...this.props}/>
@@ -42,7 +35,7 @@ const mapStateToProps = (state: AppReduxType): MapStateToPropsType => {
 const MapDispatchToProps = (): MapDispatchToPropsType => {
     return {
         setUserData,
-        AuthThunk
+        LogoutThunk
     }
 }
 

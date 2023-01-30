@@ -1,10 +1,9 @@
 import s from './Dialogs.module.css'
 import {MessageItem} from "./MessageItem/MessageItem";
 import {DialogItem} from "./DialogItem/DialogItem";
-
-import React, {ChangeEvent} from 'react'
+import React from 'react'
 import {DialogsPropsType} from "./DialogsContainer";
-import {Redirect} from "react-router-dom";
+import {DialogsFormRedux, DialogsFormType} from "./DialogsForm";
 
 const Dialogs = (props: DialogsPropsType) => {
 
@@ -14,16 +13,8 @@ const Dialogs = (props: DialogsPropsType) => {
         <MessageItem key={el.id} message={el.message}/>
     );
 
-    const onClickHandler = () => {
-        props.addMessage()
-    }
-
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.changeNewMessage(e.currentTarget.value)
-    }
-
-    if(!props.isAuth) {
-        return <Redirect to={'/login'}/>
+    const AddNewMessage = (value: DialogsFormType) => {
+        props.addMessage(value.addMessage)
     }
 
     return (
@@ -33,8 +24,7 @@ const Dialogs = (props: DialogsPropsType) => {
                 </div>
                 <div className={s.messagesItems}>
                      <div>{messagesItem}</div>
-                    <textarea onChange={onChangeHandler} value={props.newMessageText}></textarea>
-                    <button onClick={onClickHandler}>add</button>
+                    <DialogsFormRedux onSubmit={AddNewMessage}/>
                 </div>
             </div>
     )

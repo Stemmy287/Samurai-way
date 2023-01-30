@@ -1,19 +1,18 @@
-import React, {Dispatch} from 'redux'
-import {addMessageCreator, changeNewMessageCreator, DialogDateType, MessageDateType,} from "../../redux/dialogReducer";
+import React, {compose, Dispatch} from 'redux'
+import {addMessageCreator, DialogDateType, MessageDateType,} from "../../redux/dialogReducer";
 import {AppReduxType} from "../../redux/reduxStore";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
+import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
+import {ComponentType} from "react";
 
 type MapStateToPropsType = {
     dialogs: DialogDateType[],
-    messages: MessageDateType[],
-    newMessageText: string
-    isAuth: boolean
+    messages: MessageDateType[]
 }
 
 type MapDispatchToPropsType = {
-    addMessage: () => void,
-    changeNewMessage: (text: string) => void
+    addMessage: (newText: string) => void,
 }
 
 export type DialogsPropsType = MapStateToPropsType & MapDispatchToPropsType
@@ -21,21 +20,20 @@ export type DialogsPropsType = MapStateToPropsType & MapDispatchToPropsType
 const mapStateToProps = (state: AppReduxType): MapStateToPropsType => {
     return {
         dialogs: state.dialogsPage.dialogDate,
-        messages: state.dialogsPage.messageDate,
-        newMessageText: state.dialogsPage.newMessageText,
-        isAuth: state.auth.isAuth
+        messages: state.dialogsPage.messageDate
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
-        addMessage: () => {
-            dispatch(addMessageCreator())
-        },
-        changeNewMessage: (text: string) => {
-            dispatch(changeNewMessageCreator(text))
+        addMessage: (newText: string) => {
+            dispatch(addMessageCreator(newText))
         }
     }
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+export default compose<ComponentType>(
+    WithAuthRedirect,
+    connect(mapStateToProps, mapDispatchToProps)
+)(Dialogs)
+

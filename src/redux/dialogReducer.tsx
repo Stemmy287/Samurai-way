@@ -3,7 +3,6 @@ import {ActionType, AddMessageActionType, ChangeNewMessageActionType} from "./st
 export type DialogsStateType = {
     dialogDate: DialogDateType[]
     messageDate: MessageDateType[]
-    newMessageText: string
 }
 
 export type DialogDateType = {
@@ -29,8 +28,7 @@ let initialState: DialogsStateType = {
         {message: 'Hello', id: 1},
         {message: 'How are you?', id: 2},
         {message: 'Hoe', id: 3},
-    ],
-    newMessageText: ''
+    ]
 }
 
 export const dialogReducer = (state = initialState, action: ActionType): DialogsStateType => {
@@ -38,17 +36,16 @@ export const dialogReducer = (state = initialState, action: ActionType): Dialogs
     switch (action.type) {
         case "ADD-MESSAGE":
             let newMessage = {
-                message: state.newMessageText,
+                message: action.newText,
                 id: 4
             }
-            return {...state, messageDate: [...state.messageDate, newMessage], newMessageText: ''}
-        case 'CHANGE-NEW-MESSAGE':
-            return {...state, newMessageText: action.text}
+            return {...state, messageDate: [...state.messageDate, newMessage]}
         default:
             return state
     }
 }
 
-export const addMessageCreator = (): AddMessageActionType => ({type: 'ADD-MESSAGE'})
-
-export const changeNewMessageCreator = (text: string): ChangeNewMessageActionType => ({type: 'CHANGE-NEW-MESSAGE', text: text})
+export const addMessageCreator = (newText: string): AddMessageActionType => ({
+    type: 'ADD-MESSAGE',
+    newText
+})
