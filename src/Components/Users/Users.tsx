@@ -28,8 +28,8 @@ export const Users: FC<UsersPropsType> = ({
 
     return (
         <div>
-            <Paginator currentPage={currentPage} onPageChanged={onPageChanged} totalUsersCount={totalUsersCount}
-                       pageSize={pageSize}/>
+            <Paginator currentPage={currentPage} onPageChanged={onPageChanged} totalItemsCount={totalUsersCount}
+                       pageSize={pageSize} portionSize={10}/>
             {items.map(el => <User
                 key={el.id}
                 user={el}
