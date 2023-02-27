@@ -11,6 +11,7 @@ const Header: React.FC<HeaderPropsType> = (props) => {
       <div className={s.loginBlock}>
         {props.isAuth ? <div className={s.userMenu}><img src={props.photo?.small || ava} alt=""/>
           <div className={s.userName}> {props.login} </div>
+          <button onClick={props.LogoutThunk}>logOut</button>
         </div> : <NavLink to={'/login'}>Login</NavLink>}
       </div>
     </header>
