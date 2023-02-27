@@ -38,10 +38,6 @@
         margin-top: 10px;
         margin-right: 10px;
         @include text(500, 12px, 12px);
-        &:hover {
-          background-image: none;
-          transition: 0.5s;
-        }
       }
     }
   }
