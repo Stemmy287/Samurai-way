@@ -1,0 +1,56 @@
+@import "../../../assets/styles/variables";
+@import "../../../assets/styles/mixins";
+
+.fieldContainer {
+  display: flex;
+
+  .formControl {
+    input {
+      border-radius: 20px;
+      border: none;
+      background-color: #f7f7f7;
+      height: 40px;
+      width: 250px;
+      padding-left: 30px;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      height: 40px;
+      width: 250px;
+      border: none;
+      background-color: #f7f7f7;
+    }
+
+    input[type='checkbox'] {
+      width: 17px;
+      height: 17px;
+    }
+
+    span {
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+  .rememberMe {
+    color: $textColor;
+    @include text(normal, 1em, 26px);
+  }
+}
+
+
+.formControl.error textarea,
+.formControl.error input {
+  border: solid #c57373 2px;
+}
+
+.formControl.error span {
+  color: #c57373;
+}
+
+.formSummeryError {
+  color: #c57373;
+}

@@ -1,0 +1,14 @@
+@mixin headersText($fontWeight, $fontSize, $lineHeight, $color) {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: $fontWeight;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  color: $color;
+}
+
+@mixin text($fontWeight, $fontSize, $lineHeight) {
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: $fontWeight;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+}

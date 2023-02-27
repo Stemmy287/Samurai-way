@@ -1,5 +1,5 @@
 import React from 'react';
-import {deletePost, profileReducer, ProfileType} from "./profileReducer";
+import {deletePost, profileReducer, ProfileType, savePhotoSuccess, setIsEdit} from "./profileReducer";
 import {dialogReducer} from "./dialogReducer";
 import {itemType} from "./usersReducer";
 
@@ -23,8 +23,9 @@ type friendsPageType = {
 
 type profilePageType = {
     postDate: postDateType[]
-    profile: ProfileType | null
+    profile: ProfileType
     status: string | null
+    isEdit: 'none' | 'successes'
 }
 
 type messagePageType = {
@@ -140,7 +141,9 @@ export type ActionType = AddPostActionType |
     SetFollowingInProgress |
     SetStatusActionType |
     UpdateStatusActionType |
-    ReturnType<typeof deletePost>
+    ReturnType<typeof deletePost> |
+    ReturnType<typeof savePhotoSuccess> |
+    ReturnType<typeof setIsEdit>
 
 
 export let store: storeType = {
@@ -150,8 +153,9 @@ export let store: storeType = {
                 {id: 1, message: 'Hi, how are you?', likeCounter: 15},
                 {id: 2, message: 'It\'s my first post', likeCounter: 20}
             ],
-            profile: null,
-            status: null
+            profile: {} as ProfileType,
+            status: null,
+            isEdit: 'none'
         },
         messagesPage: {
             dialogDate: [

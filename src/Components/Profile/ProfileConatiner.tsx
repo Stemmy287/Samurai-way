@@ -4,18 +4,18 @@ import {connect} from "react-redux";
 import {
     getProfileThunk,
     ProfileType,
+    savePhotoThunk, saveProfileThunk, setIsEdit,
     setStatusThunk,
-    setUserProfile,
     updateStatusThunk
 } from "../../redux/profileReducer";
 import {AppReduxType} from "../../redux/reduxStore";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
-import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
+import {ProfileDataFormType} from "./TopInfo/profileDataForm/ProfileDataForm";
 
 class ProfileContainer extends React.Component<PropsType> {
 
-    componentDidMount() {
+    refreshProfile() {
         let userId = this.props.match.params.userId
 
         if (!userId) {
@@ -24,32 +24,54 @@ class ProfileContainer extends React.Component<PropsType> {
                 this.props.history.push('/login')
             }
         }
-        this.props.getProfileThunk(userId)
-        this.props.setStatusThunk(userId)
+        this.props.getProfileThunk(+userId)
+        this.props.setStatusThunk(+userId)
+    }
+
+    componentDidMount() {
+        this.refreshProfile()
+    }
+
+    componentDidUpdate(prevProps: PropsType, prevState: PropsType) {
+        if(this.props.match.params.userId != prevProps.match.params.userId){
+            this.refreshProfile()
+        }
     }
 
     render() {
 
         return (
             <div>
-                <Profile profile={this.props.profile} status={this.props.status}
-                         updateStatus={this.props.updateStatusThunk}/>
+                <Profile
+                  isEdit={this.props.isEdit}
+                  isOwner={!this.props.match.params.userId}
+                  profile={this.props.profile}
+                  status={this.props.status}
+                  updateStatus={this.props.updateStatusThunk}
+                  savePhoto={this.props.savePhotoThunk}
+                  saveProfile={this.props.saveProfileThunk}
+                  setIsEdit={this.props.setIsEdit}
+                />
             </div>
         );
     }
-};
+}
 
 type mapStateToPropsType = {
-    profile: ProfileType | null
+    profile: ProfileType
     status: string | null
     userId: number | null
     isAuth: boolean
+    isEdit: 'none' | 'successes'
 }
 
 type mapDispatchToPropsType = {
-    getProfileThunk: (userId: string) => void
-    setStatusThunk: (userId: string) => void
+    getProfileThunk: (userId: number) => void
+    setStatusThunk: (userId: number) => void
     updateStatusThunk: (title: string | null) => void
+    savePhotoThunk:(img: File) => void
+    saveProfileThunk: (profile: ProfileDataFormType) => void
+    setIsEdit: (isEdit: 'none' | 'successes') => void
 }
 
 type paramsType = {
@@ -65,7 +87,8 @@ const mapStateToProps = (state: AppReduxType): mapStateToPropsType => {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
         userId: state.auth.userId,
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        isEdit: state.profilePage.isEdit
     }
 }
 
@@ -73,7 +96,10 @@ const mapDispatchToProps = (): mapDispatchToPropsType => {
     return {
         getProfileThunk,
         setStatusThunk,
-        updateStatusThunk
+        updateStatusThunk,
+        savePhotoThunk,
+        saveProfileThunk,
+        setIsEdit
     }
 
 }

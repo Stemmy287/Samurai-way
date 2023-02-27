@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import s from './paginator.module.css'
+import s from './paginator.module.scss'
 
 type PaginatorPropsType = {
   totalItemsCount: number
@@ -30,7 +30,7 @@ export const Paginator: FC<PaginatorPropsType> = ({
   let rightPagePortionNumber = portionNumber * portionSize
 
   return (
-    <div>
+    <div className={s.paginatorContainer}>
       {portionNumber > 1 &&
         <button onClick={() => {setPortionNumber(portionNumber - 1)}}>PREV</button>
       }

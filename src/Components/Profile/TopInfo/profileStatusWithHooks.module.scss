@@ -1,0 +1,24 @@
+@import "../../../assets/styles/mixins";
+@import "../../../assets/styles/variables";
+
+.statusContainer {
+  b {
+    @include headersText(1000, 16px, 16px, black)
+  }
+  input {
+    border-radius: 20px;
+    border: none;
+    background-color: #f7f7f7;
+    height: 40px;
+    width: 250px;
+    padding-left: 30px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    margin-bottom: 10px;
+  }
+  .status {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+}

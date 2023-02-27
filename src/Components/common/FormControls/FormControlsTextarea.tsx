@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {WrappedFieldProps} from "redux-form/lib/Field";
-import s from './formControls.module.css'
-import {required} from "../../../utils/validators/validators";
+import s from './formControls.module.scss'
 import {Field} from "redux-form";
 
 export const FormControlsTextarea: FC<WrappedFieldProps> = ({input, meta, ...props}) => {
@@ -24,18 +23,16 @@ export const FormControlsInput: FC<WrappedFieldProps> = ({input, meta, ...props}
 
     return (
         <div className={`${s.formControl} ${hasError ? s.error : ''}`}>
-            <div>
                 <input {...input} {...props}/>
-            </div>
-            {hasError && <span>{meta.error}</span>}
+            {hasError && <span >{meta.error}</span>}
         </div>
     );
 };
 
 export const createField = <D, >(name: string, component: FC<D>, restProps?: FormPropsType, text?: string) => {
     return (
-        <div>
-            <Field component={component} name={name} {...restProps}/> {text}
+        <div className={s.fieldContainer}>
+            <Field component={component} name={name} {...restProps}/> <span className={s.rememberMe}>{text}</span>
         </div>
     )
 

@@ -1,0 +1,27 @@
+@import "../../assets/styles/variables";
+
+.nav {
+  grid-area: n;
+  padding: 20px;
+  background-color: $secondColor;
+  border-right: 1px solid #e7edf2;
+
+  .item a {
+    color: $textColor;
+    text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  .item.active {
+    color: gold;
+  }
+
+  .itemSettings {
+    margin-top: 20px;
+  }
+
+  .itemFriends {
+    margin-top: 45px;
+  }
+}
+

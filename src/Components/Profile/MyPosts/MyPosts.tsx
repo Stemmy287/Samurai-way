@@ -1,4 +1,4 @@
-import s from './MyPosts.module.css';
+import s from './MyPosts.module.scss';
 import React, {memo} from 'react';
 import Post from './Post/Post';
 import {MyPostsPropsType} from "./MyPostsContainer";

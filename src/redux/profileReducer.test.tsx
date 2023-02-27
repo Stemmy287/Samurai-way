@@ -1,4 +1,4 @@
-import {addPostCreator, deletePost, ProfilePageType, profileReducer} from "./profileReducer";
+import {addPostCreator, deletePost, ProfilePageType, profileReducer, ProfileType} from "./profileReducer";
 
 test('add new post', () => {
     const state: ProfilePageType = {
@@ -6,8 +6,9 @@ test('add new post', () => {
             {id: 1, message: 'Hi, how are you?', likeCounter: 15},
             {id: 2, message: 'It\'s my first post', likeCounter: 20}
         ],
-        profile: null,
-        status: null
+        profile: {} as ProfileType,
+        status: null,
+        isEdit: 'none'
     }
 
     let action = addPostCreator('it-kamasutra.com')
@@ -24,8 +25,9 @@ test('delete post', () => {
             {id: 1, message: 'Hi, how are you?', likeCounter: 15},
             {id: 2, message: 'It\'s my first post', likeCounter: 20}
         ],
-        profile: null,
-        status: null
+        profile: {} as ProfileType,
+        status: null,
+        isEdit: 'none'
     }
 
     let action = deletePost(1)

@@ -1,7 +1,8 @@
+import s from './news.module.scss'
 
 const News = () => {
     return (
-        <div>News</div>
+        <div className={s.news}>News: no endpoints</div>
     )
 }
 

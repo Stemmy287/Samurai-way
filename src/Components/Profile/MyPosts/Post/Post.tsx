@@ -1,4 +1,4 @@
-import s from './Post.module.css';
+import s from './Post.module.scss';
 import React from 'react';
 
 type PostPropsType = {
@@ -9,7 +9,7 @@ type PostPropsType = {
 const Post = (props: PostPropsType) => {
     return (
         <div className={s.item}>
-            <img src="https://w7.pngwing.com/pngs/862/646/png-transparent-beard-hipster-male-man-avatars-xmas-giveaway-icon-thumbnail.png"/>
+            <img alt='' src="https://w7.pngwing.com/pngs/862/646/png-transparent-beard-hipster-male-man-avatars-xmas-giveaway-icon-thumbnail.png"/>
             {props.message}
             <div>
                 <span>like {props.likeCounter}</span>

@@ -1,4 +1,4 @@
-import s from './Dialogs.module.css'
+import s from './Dialogs.module.scss'
 import {MessageItem} from "./MessageItem/MessageItem";
 import {DialogItem} from "./DialogItem/DialogItem";
 import React from 'react'

@@ -2,11 +2,13 @@ import React from 'react';
 import Header from "./Header";
 import {connect} from "react-redux";
 import {AppReduxType} from "../../redux/reduxStore";
-import {AuthThunk, LogoutThunk, setUserData} from "../../redux/authReducer";
+import {LogoutThunk, setUserData} from "../../redux/authReducer";
+import {PhotosType} from "../../redux/profileReducer";
 
 type MapStateToPropsType = {
     isAuth: boolean
     login: string | null
+    photo: PhotosType
 }
 
 type MapDispatchToPropsType = {
@@ -28,7 +30,8 @@ class HeaderApiContainer extends React.Component<HeaderPropsType> {
 const mapStateToProps = (state: AppReduxType): MapStateToPropsType => {
     return {
         isAuth: state.auth.isAuth,
-        login: state.auth.login
+        login: state.auth.login,
+        photo: state.profilePage.profile.photos
     }
 }
 

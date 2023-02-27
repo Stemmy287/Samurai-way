@@ -1,7 +1,8 @@
+import s from './music.module.scss'
 
 const Music = () => {
     return (
-        <div>Music</div>
+        <div className={s.music}>Music: no endpoints</div>
     )
 }
 

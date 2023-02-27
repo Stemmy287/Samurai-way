@@ -4,7 +4,7 @@ import {dialogReducer} from "./dialogReducer";
 import {friendReducer} from "./friendReducer";
 import {usersReducer} from "./usersReducer";
 import {authReducer} from "./authReducer";
-import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
+import thunk, {ThunkAction} from 'redux-thunk'
 import {reducer as formReducer} from "redux-form";
 import {appReducer} from "./appReducer";
 
@@ -23,4 +23,7 @@ let reducers = combineReducers({
 export let store = createStore(reducers, applyMiddleware(thunk))
 
 export type AppThunkDispatchType = ThunkAction<void, AppReduxType, any, AnyAction>
+
+// @ts-ignore
+window.store = store
 

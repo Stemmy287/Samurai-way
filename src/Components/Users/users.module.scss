@@ -1,0 +1,28 @@
+@import "../../assets/styles/mixins";
+@import "../../assets/styles/variables";
+
+.userContainer{
+    display: flex;
+    column-gap: 75px;
+    border: 2px solid $mainColor;
+    padding: 3px;
+    .ava {
+        width: 100px;
+
+    }
+    .name {
+        @include headersText(700, 16px, 16px, black);
+        margin: 10px 0;
+    }
+    .status {
+        margin: 10px 0;
+        @include text(400, 16px, 16px);
+        color: black;
+    }
+}
+
+.selectedPage {
+    font-weight: bold;
+}
+
+
