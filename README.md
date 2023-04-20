@@ -1,1 +1,1 @@
-# GitHub pages: https://stemmy287.github.io/samurai-way
+GitHub pages: https://stemmy287.github.io/samurai-way
